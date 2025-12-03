@@ -21,7 +21,7 @@
 
 This project is a **follow-up study** to our published work:
 
-> **Qiu, X.**, Müller-Tidow, C., & Zang, C. (2024). **Deciphering Abnormal Platelet Subpopulations in COVID-19, Sepsis and Systemic Lupus Erythematosus through Machine Learning and Single-Cell Transcriptomics.** *International Journal of Molecular Sciences*, 25(11), 5941.
+> **Qiu, X (2024). **Deciphering Abnormal Platelet Subpopulations in COVID-19, Sepsis and Systemic Lupus Erythematosus through Machine Learning and Single-Cell Transcriptomics.** *International Journal of Molecular Sciences*, 25(11), 5941.
 >
 > 📄 [Read the paper](https://www.mdpi.com/1422-0067/25/11/5941)
 
