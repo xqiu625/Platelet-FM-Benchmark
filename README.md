@@ -128,6 +128,50 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 ---
 
+## 💊 Perturbation Analysis for Drug Discovery
+
+Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT116) to COVID severity states to identify potential therapeutic candidates.
+
+### Approach
+1. Compute severity centroids from COVID platelet embeddings
+2. Define **recovery direction** (severe → recovered) and **disease direction** (healthy → severe)
+3. Score each perturbation by projection onto recovery direction
+4. Identify perturbations that shift transcriptional states toward recovery
+
+### Perturbation Landscape
+
+<p align="center">
+  <img src="figures/uce_perturbation_landscape.png" alt="Perturbation Landscape" width="900"/>
+</p>
+
+### Top Therapeutic Candidates
+
+| Rank | Gene Target | Recovery Score | Closest State | Cells |
+|:----:|-------------|:--------------:|:-------------:|:-----:|
+| 1 | **ICMT** | 27.15 | recovered | 5 |
+| 2 | **ZNF766** | 27.10 | recovered | 6 |
+| 3 | **MED31** | 27.08 | recovered | 5 |
+| 4 | **ZFP30** | 27.02 | recovered | 5 |
+| 5 | **DUSP11** | 26.98 | recovered | 6 |
+| 6 | **SLC28A1** | 26.96 | recovered | 5 |
+| 7 | **ESD** | 26.95 | recovered | 5 |
+| 8 | **AGPAT3** | 26.93 | recovered | 5 |
+| 9 | **B4GALT1** | 26.89 | recovered | 5 |
+| 10 | **RAMP3** | 26.85 | recovered | 5 |
+
+### Therapeutic Rankings
+
+<p align="center">
+  <img src="figures/uce_therapeutic_rankings.png" alt="Therapeutic Rankings" width="900"/>
+</p>
+
+### Analysis Summary
+- **Total perturbations analyzed:** 16,248
+- **Therapeutic candidates identified:** 50 (high recovery score, closest to recovered/healthy)
+- **Data sources:** HEK293T (88,434 cells) + HCT116 (89,738 cells)
+
+---
+
 ## 📁 Data
 
 ### Platelet Single-Cell Datasets
@@ -255,6 +299,7 @@ Platelet-FM-Benchmark/
 - [x] Binary classification benchmark (severe vs non-severe)
 - [x] UMAP/PCA/t-SNE visualizations
 - [x] Model comparison documentation
+- [x] **Perturbation analysis for drug discovery** (16,248 perturbations analyzed)
 
 ### In Progress 🔄
 - [ ] 3-class classification (control/mild/severe)
@@ -262,7 +307,6 @@ Platelet-FM-Benchmark/
 - [ ] Sepsis dataset integration
 
 ### Planned 📋
-- [ ] Perturbation analysis for drug discovery
 - [ ] STATE model integration for drug response prediction
 - [ ] Cardiovascular biomarker identification
 - [ ] Cross-disease transfer learning (COVID → Sepsis)
