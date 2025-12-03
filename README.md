@@ -297,29 +297,6 @@ Platelet-FM-Benchmark/
         └── uce_analysis_report_*.txt          # Summary report
 ```
 
----
-
-## 📈 Roadmap
-
-### Completed ✅
-- [x] Generate embeddings for 4 foundation models
-- [x] Binary classification benchmark (severe vs non-severe)
-- [x] UMAP/PCA/t-SNE visualizations
-- [x] Model comparison documentation
-- [x] **Perturbation analysis for drug discovery** (16,248 perturbations analyzed)
-
-### In Progress 🔄
-- [ ] 3-class classification (control/mild/severe)
-- [ ] 6-class classification (all severity levels)
-- [ ] Sepsis dataset integration
-
-### Planned 📋
-- [ ] STATE model integration for drug response prediction
-- [ ] Cardiovascular biomarker identification
-- [ ] Cross-disease transfer learning (COVID → Sepsis)
-- [ ] Interactive HuggingFace demo
-
----
 
 ## 📚 References
 
