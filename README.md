@@ -134,8 +134,7 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 | Dataset | Disease | Cells | Description |
 |---------|---------|------:|-------------|
-| COVID-19 | Viral Infection | ~47,000 | Severity progression (healthy → fatal) |
-| Sepsis | Bacterial Infection | *Coming soon* | Sepsis severity prediction |
+| COVID-19 + Sepsis | Viral & Bacterial Infection | ~47,000 | Severity progression (healthy → fatal) |
 | Perturbation | Drug Response | ~100,000 | HEK293T + HCT116 perturbation screens |
 
 ### COVID-19 Severity Distribution
