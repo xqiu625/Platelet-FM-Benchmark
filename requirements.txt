@@ -1,0 +1,31 @@
+# Platelet-FM-Benchmark Requirements
+# Python 3.9+
+
+# Core scientific computing
+numpy>=1.21.0
+pandas>=1.3.0
+scipy>=1.7.0
+
+# Single-cell analysis
+scanpy>=1.9.0
+anndata>=0.8.0
+
+# Machine learning
+scikit-learn>=1.0.0
+
+# Deep learning (for embedding extraction)
+torch>=1.10.0
+
+# Dimensionality reduction
+umap-learn>=0.5.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Foundation model specific
+transformers>=4.20.0  # For Geneformer
+
+# Utilities
+tqdm>=4.62.0
+jupyter>=1.0.0
