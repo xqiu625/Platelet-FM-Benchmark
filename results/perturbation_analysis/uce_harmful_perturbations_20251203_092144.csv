@@ -1,0 +1,1 @@
+perturbation,dataset,n_cells,closest_severity,recovery_score,disease_score,dist_healthy,dist_mild,dist_moderate,dist_severe,dist_fatal,dist_recovered,sim_healthy,sim_mild,sim_moderate,sim_severe,sim_fatal,sim_recovered

@@ -274,10 +274,13 @@ python scripts/analysis/create_embedding_visualizations.py
 Platelet-FM-Benchmark/
 ├── README.md                           # This file
 ├── requirements.txt                    # Dependencies
-├── figures/                            # Generated visualizations
-│   ├── fig1_model_comparison.png       # Main benchmark results
-│   ├── umap_4models_6class.png         # UMAP comparisons
-│   ├── uce_severity_gradient.png       # Severity progression
+├── figures/                            # Generated visualizations (PNG + PDF)
+│   ├── fig1_model_comparison.png/pdf   # Main benchmark results
+│   ├── fig2_heatmap.png/pdf            # Performance heatmap
+│   ├── fig3_auc_comparison.png/pdf     # AUC comparison
+│   ├── umap_4models_6class.png/pdf     # UMAP comparisons
+│   ├── uce_perturbation_landscape.png/pdf  # Perturbation UMAP
+│   ├── uce_therapeutic_rankings.png/pdf    # Drug target rankings
 │   └── ...
 ├── scripts/
 │   └── analysis/
@@ -287,7 +290,11 @@ Platelet-FM-Benchmark/
 │       └── create_embedding_visualizations.py  # UMAP/PCA/t-SNE
 ├── docs/
 │   └── FOUNDATION_MODEL_COMPARISON.md  # Detailed model comparison
-└── results/                            # Benchmark outputs (CSV, JSON)
+└── results/
+    └── perturbation_analysis/          # Drug discovery outputs
+        ├── uce_therapeutic_candidates_*.csv   # Top 50 drug targets
+        ├── uce_perturbation_scores_*.csv      # All 16,248 perturbation scores
+        └── uce_analysis_report_*.txt          # Summary report
 ```
 
 ---

@@ -1,0 +1,37 @@
+PERTURBATION-SEVERITY ANALYSIS REPORT
+Model: UCE
+Date: 20251203_092144
+============================================================
+
+DATA SUMMARY:
+  covid: 47808 cells
+  hek293t: 88434 cells
+  hct116: 89738 cells
+
+TOTAL PERTURBATIONS ANALYZED: 16248
+THERAPEUTIC CANDIDATES: 50
+HARMFUL PERTURBATIONS: 0
+
+
+TOP 20 THERAPEUTIC CANDIDATES:
+------------------------------------------------------------
+ICMT_P1P2-1|ICMT_P1P2-2: recovery=27.153, closest=recovered
+ZNF766_P1P2-1|ZNF766_P1P2-2: recovery=27.102, closest=recovered
+MED31_P1P2-1|MED31_P1P2-2: recovery=27.082, closest=recovered
+ZFP30_P1P2-1|ZFP30_P1P2-2: recovery=27.023, closest=recovered
+KRTAP21-3_ENST00000444335.1-1|KRTAP21-3_ENST00000444335.1-2: recovery=27.005, closest=recovered
+DUSP11_P1P2-1|DUSP11_P1P2-2: recovery=26.984, closest=recovered
+SLC28A1_P1-1|SLC28A1_P1-2: recovery=26.958, closest=recovered
+ESD_P1P2-1|ESD_P1P2-2: recovery=26.947, closest=recovered
+AGPAT3_P1P2-1|AGPAT3_P1P2-2: recovery=26.928, closest=recovered
+B4GALT1_P1P2-1|B4GALT1_P1P2-2: recovery=26.892, closest=recovered
+non-targeting_02896|non-targeting_03244: recovery=26.885, closest=recovered
+RAMP3_P1P2-1|RAMP3_P1P2-2: recovery=26.849, closest=recovered
+LMCD1_P1P2-1|LMCD1_P1P2-2: recovery=26.847, closest=recovered
+non-targeting_00986|non-targeting_00554: recovery=26.824, closest=recovered
+FAM83F_P1P2-1|FAM83F_P1P2-2: recovery=26.817, closest=recovered
+HEPACAM2_P2-1|HEPACAM2_P2-2: recovery=26.808, closest=recovered
+PXYLP1_P1P2-1|PXYLP1_P1P2-2: recovery=26.808, closest=recovered
+LILRB2_P1P2-1|LILRB2_P1P2-2: recovery=26.804, closest=recovered
+H4C16_ENST00000539745.1-1|H4C16_ENST00000539745.1-2: recovery=26.799, closest=recovered
+ATP2B3_P1P2-1|ATP2B3_P1P2-2: recovery=26.794, closest=recovered
