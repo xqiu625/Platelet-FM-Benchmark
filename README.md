@@ -168,7 +168,7 @@ Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT11
 ### Analysis Summary
 - **Total perturbations analyzed:** 16,248
 - **Therapeutic candidates identified:** 50 (high recovery score, closest to recovered/healthy)
-- **Data sources:** HEK293T (88,434 cells) + HCT116 (89,738 cells)
+- **Data sources:** HEK293T (88,434 cells) + HCT116 (89,738 cells) from the [X-Atlas/Orion genome-wide Perturb-seq dataset](https://doi.org/10.1101/2025.06.11.659105) (Huang et al., bioRxiv 2025)
 
 ---
 
@@ -179,7 +179,9 @@ Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT11
 | Dataset | Disease | Cells | Description |
 |---------|---------|------:|-------------|
 | COVID-19 + Sepsis | Viral & Bacterial Infection | ~47,000 | Severity progression (healthy → fatal) |
-| Perturbation | Drug Response | ~100,000 | HEK293T + HCT116 perturbation screens |
+| Perturbation | Drug Response | ~178,000 | HEK293T + HCT116 perturbation screens |
+
+**Perturbation Data Source:** The perturbation data (HEK293T: 88,434 cells + HCT116: 89,738 cells) is from the [X-Atlas/Orion dataset](https://doi.org/10.1101/2025.06.11.659105) (Huang et al., bioRxiv 2025), a genome-wide Perturb-seq atlas targeting 18,903 human genes using the FiCS (Fix-Cryopreserve-ScRNAseq) platform.
 
 ### COVID-19 Severity Distribution
 
@@ -330,6 +332,9 @@ Platelet-FM-Benchmark/
 2. **scGPT:** Cui et al. (2024). scGPT: Foundation Model for Single-cell Multi-omics. *Nature Methods*. [Paper](https://www.nature.com/articles/s41592-024-02201-0)
 3. **Geneformer:** Theodoris et al. (2023). Transfer learning for network biology. *Nature*. [Paper](https://doi.org/10.1038/s41586-023-06139-9)
 4. **TranscriptFormer:** Pearce et al. (2025). Cross-Species Generative Cell Atlas. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.04.25.650731)
+
+### Perturbation Dataset
+5. **X-Atlas/Orion:** Huang et al. (2025). Genome-wide Perturb-seq Datasets via a Scalable Fix-Cryopreserve Platform for Training Dose-Dependent Biological Foundation Models. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.06.11.659105)
 
 ---
 
