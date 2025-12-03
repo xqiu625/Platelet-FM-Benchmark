@@ -309,8 +309,7 @@ Platelet-FM-Benchmark/
 ## 👤 Author
 
 **Xinru Qiu**
-UC San Diego | Godzik Lab
-📧 xqiu@ucsd.edu
+📧 xinru.reina.qiu@gmail.com
 🐙 [@xqiu625](https://github.com/xqiu625)
 
 ---
