@@ -224,51 +224,6 @@ Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT11
 
 ---
 
-## 💻 Usage
-
-### Installation
-
-```bash
-git clone https://github.com/xqiu625/Platelet-FM-Benchmark.git
-cd Platelet-FM-Benchmark
-pip install -r requirements.txt
-```
-
-### Run Benchmark
-
-```bash
-# Single model (quick mode: LogReg + RandomForest only)
-python scripts/analysis/benchmark_single_model.py --model UCE --quick --tasks binary
-
-# All 4 models
-for model in UCE scGPT Geneformer TranscriptFormer; do
-    python scripts/analysis/benchmark_single_model.py --model $model --quick --tasks binary
-done
-
-# Merge results
-python scripts/analysis/merge_benchmark_results.py
-```
-
-### Generate Figures
-
-```bash
-# Benchmark figures (bar charts, heatmaps)
-python scripts/analysis/create_benchmark_figures.py
-
-# Embedding visualizations (UMAP, PCA, t-SNE)
-python scripts/analysis/create_embedding_visualizations.py
-```
-
-### Options
-
-| Flag | Description |
-|------|-------------|
-| `--model` | UCE, scGPT, Geneformer, TranscriptFormer |
-| `--tasks` | binary, 3-class, 6-class |
-| `--quick` | Fast mode (LogReg + RF only) |
-| `--cv-folds` | Number of CV folds (default: 5) |
-
----
 
 ## 📂 Repository Structure
 
