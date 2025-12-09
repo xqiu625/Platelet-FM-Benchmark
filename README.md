@@ -34,7 +34,7 @@ In our 2024 paper, we identified distinct platelet subpopulations associated wit
 
 ## 📌 Project Overview
 
-Platelets play a critical role in both **infection response** and **cardiovascular complications**. This project benchmarks **four single-cell foundation models** on platelet transcriptomics to:
+Platelets play a critical role in both **infection response** and **cardiovascular complications**. This project benchmarks **five single-cell foundation models** on platelet transcriptomics to:
 
 1. **Predict infection severity** (COVID-19, Sepsis)
 2. **Identify cardiovascular risk biomarkers** post-infection
@@ -44,7 +44,7 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 > *Can foundation models pre-trained on millions of single cells capture disease-relevant patterns in platelets for infection severity and cardiovascular risk prediction?*
 
 ### Key Finding
-> **UCE (Universal Cell Embeddings) achieves 0.876 AUC** for severity classification, outperforming scGPT, Geneformer, and TranscriptFormer on platelet transcriptomics.
+> **STATE (Arc Institute) achieves 0.894 AUC** for severity classification, outperforming UCE, scGPT, Geneformer, and TranscriptFormer on platelet transcriptomics.
 
 ---
 
@@ -54,10 +54,11 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 | Rank | Model | AUC | Balanced Accuracy | Embedding Dims |
 |:----:|-------|:---:|:-----------------:|:--------------:|
-| 🥇 | **UCE** | **0.876** | **0.793** | 1,280 |
-| 🥈 | TranscriptFormer | 0.838 | 0.760 | 2,048 |
-| 🥉 | Geneformer | 0.824 | 0.745 | 1,152 |
+| 🥇 | **STATE** | **0.894** | **0.812** | 2,058 |
+| 🥈 | UCE | 0.876 | 0.793 | 1,280 |
+| 🥉 | TranscriptFormer | 0.838 | 0.760 | 2,048 |
 | 4 | scGPT | 0.833 | 0.732 | 512 |
+| 5 | Geneformer | 0.824 | 0.745 | 1,152 |
 
 <p align="center">
   <img src="figures/fig1_model_comparison.png" alt="Model Comparison" width="800"/>
@@ -69,8 +70,9 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 ### Key Insights
 
-- **UCE achieves best performance** (AUC 0.876) with simple logistic regression
-- **Logistic regression outperforms random forest** for 3/4 models → embeddings have good linear separability
+- **STATE achieves best performance** (AUC 0.894) with simple logistic regression
+- **STATE improves over UCE by 2%** (0.894 vs 0.876 AUC)
+- **Logistic regression outperforms random forest** for 4/5 models → embeddings have good linear separability
 - **All foundation models achieve AUC > 0.7** → pre-training transfers well to clinical prediction
 
 ---
@@ -79,6 +81,7 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 | Model | Publication | Training Scale | Architecture | Primary Focus |
 |-------|-------------|----------------|--------------|---------------|
+| [**STATE**](https://github.com/ArcInstitute/state) | bioRxiv 2025 | Large-scale | Transformer + ESM2 | Perturbation response |
 | [**UCE**](https://github.com/snap-stanford/UCE) | bioRxiv 2023 | 36M cells | Transformer + ESM2 | Cross-species |
 | [**scGPT**](https://github.com/bowang-lab/scGPT) | Nat Methods 2024 | 33M cells | GPT-style | Multi-omics |
 | [**Geneformer**](https://huggingface.co/ctheodoris/Geneformer) | Nature 2023 | 30M cells | BERT-style | Network biology |
@@ -224,6 +227,51 @@ Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT11
 
 ---
 
+## 💻 Usage
+
+### Installation
+
+```bash
+git clone https://github.com/xqiu625/Platelet-FM-Benchmark.git
+cd Platelet-FM-Benchmark
+pip install -r requirements.txt
+```
+
+### Run Benchmark
+
+```bash
+# Single model (quick mode: LogReg + RandomForest only)
+python scripts/analysis/benchmark_single_model.py --model UCE --quick --tasks binary
+
+# All 5 models
+for model in STATE UCE scGPT Geneformer TranscriptFormer; do
+    python scripts/analysis/benchmark_single_model.py --model $model --quick --tasks binary
+done
+
+# Merge results
+python scripts/analysis/merge_benchmark_results.py
+```
+
+### Generate Figures
+
+```bash
+# Benchmark figures (bar charts, heatmaps)
+python scripts/analysis/create_benchmark_figures.py
+
+# Embedding visualizations (UMAP, PCA, t-SNE)
+python scripts/analysis/create_embedding_visualizations.py
+```
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `--model` | STATE, UCE, scGPT, Geneformer, TranscriptFormer |
+| `--tasks` | binary, 3-class, 6-class |
+| `--quick` | Fast mode (LogReg + RF only) |
+| `--cv-folds` | Number of CV folds (default: 5) |
+
+---
 
 ## 📂 Repository Structure
 
@@ -283,13 +331,14 @@ Platelet-FM-Benchmark/
 ```
 
 ### Foundation Models
-1. **UCE:** Rosen et al. (2023). Universal Cell Embeddings. *bioRxiv*. [Paper](https://doi.org/10.1101/2023.11.28.568918)
-2. **scGPT:** Cui et al. (2024). scGPT: Foundation Model for Single-cell Multi-omics. *Nature Methods*. [Paper](https://www.nature.com/articles/s41592-024-02201-0)
-3. **Geneformer:** Theodoris et al. (2023). Transfer learning for network biology. *Nature*. [Paper](https://doi.org/10.1038/s41586-023-06139-9)
-4. **TranscriptFormer:** Pearce et al. (2025). Cross-Species Generative Cell Atlas. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.04.25.650731)
+1. **STATE:** Arc Institute (2025). State: Perturbation Response Prediction. *bioRxiv*. [GitHub](https://github.com/ArcInstitute/state)
+2. **UCE:** Rosen et al. (2023). Universal Cell Embeddings. *bioRxiv*. [Paper](https://doi.org/10.1101/2023.11.28.568918)
+3. **scGPT:** Cui et al. (2024). scGPT: Foundation Model for Single-cell Multi-omics. *Nature Methods*. [Paper](https://www.nature.com/articles/s41592-024-02201-0)
+4. **Geneformer:** Theodoris et al. (2023). Transfer learning for network biology. *Nature*. [Paper](https://doi.org/10.1038/s41586-023-06139-9)
+5. **TranscriptFormer:** Pearce et al. (2025). Cross-Species Generative Cell Atlas. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.04.25.650731)
 
 ### Perturbation Dataset
-5. **X-Atlas/Orion:** Huang et al. (2025). Genome-wide Perturb-seq Datasets via a Scalable Fix-Cryopreserve Platform for Training Dose-Dependent Biological Foundation Models. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.06.11.659105)
+6. **X-Atlas/Orion:** Huang et al. (2025). Genome-wide Perturb-seq Datasets via a Scalable Fix-Cryopreserve Platform for Training Dose-Dependent Biological Foundation Models. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.06.11.659105)
 
 ---
 
