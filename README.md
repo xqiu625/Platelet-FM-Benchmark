@@ -44,21 +44,35 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 > *Can foundation models pre-trained on millions of single cells capture disease-relevant patterns in platelets for infection severity and cardiovascular risk prediction?*
 
 ### Key Finding
-> **STATE (Arc Institute) achieves 0.894 AUC** for severity classification, outperforming UCE, scGPT, Geneformer, and TranscriptFormer on platelet transcriptomics.
+> **Raw XGBoost (0.897 AUC) beats all foundation models!** Among foundation models, **STATE (Arc Institute) achieves 0.894 AUC**, outperforming UCE (0.876), TranscriptFormer (0.838), scGPT (0.833), and Geneformer (0.824). Three foundation models underperform simple PCA baselines.
 
 ---
 
 ## 🏆 Key Results
 
-### Binary Classification: Severe vs Non-Severe
+### Full Ranking: Foundation Models vs Baselines
 
-| Rank | Model | AUC | Balanced Accuracy | Embedding Dims |
-|:----:|-------|:---:|:-----------------:|:--------------:|
-| 🥇 | **STATE** | **0.894** | **0.812** | 2,058 |
-| 🥈 | UCE | 0.876 | 0.793 | 1,280 |
-| 🥉 | TranscriptFormer | 0.838 | 0.760 | 2,048 |
-| 4 | scGPT | 0.833 | 0.732 | 512 |
-| 5 | Geneformer | 0.824 | 0.745 | 1,152 |
+| Rank | Method | AUC | Type | Notes |
+|:----:|--------|:---:|:----:|-------|
+| 🥇 | **Raw_XGBoost** | **0.897** | Baseline | Best overall! |
+| 🥈 | **STATE** | **0.894** | Foundation | Best foundation model |
+| 🥉 | Raw_LogReg | 0.878 | Baseline | Very competitive |
+| 4 | UCE | 0.876 | Foundation | Barely beats LogReg |
+| 5 | Raw_RF | 0.867 | Baseline | |
+| 6 | PCA_500 | 0.850 | Baseline | |
+| 7 | TranscriptFormer | 0.838 | Foundation | Below PCA baselines |
+| 8 | scGPT | 0.833 | Foundation | Below PCA baselines |
+| 9 | Geneformer | 0.824 | Foundation | Below PCA baselines |
+
+### Foundation Models: Multi-Task Performance
+
+| Model | Binary AUC | 3-Class AUC | 6-Class AUC | Avg AUC |
+|-------|:----------:|:-----------:|:-----------:|:-------:|
+| **STATE** | **0.894** | **0.893** | **0.894** | **0.894** |
+| UCE | 0.876 | 0.885 | 0.888 | 0.883 |
+| TranscriptFormer | 0.838 | 0.851 | 0.849 | 0.846 |
+| Geneformer | 0.824 | 0.833 | 0.821 | 0.826 |
+| scGPT | 0.833 | 0.747 | 0.810 | 0.797 |
 
 <p align="center">
   <img src="figures/fig1_model_comparison.png" alt="Model Comparison" width="800"/>
@@ -70,10 +84,11 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 ### Key Insights
 
-- **STATE achieves best performance** (AUC 0.894) with simple logistic regression
-- **STATE improves over UCE by 2%** (0.894 vs 0.876 AUC)
-- **Logistic regression outperforms random forest** for 4/5 models → embeddings have good linear separability
-- **All foundation models achieve AUC > 0.7** → pre-training transfers well to clinical prediction
+- **Raw XGBoost beats all foundation models** (0.897 vs 0.894 for STATE)
+- **Only STATE is competitive** with simple baselines among foundation models
+- **3 of 5 foundation models underperform PCA baselines** (TranscriptFormer, scGPT, Geneformer)
+- **STATE is remarkably consistent** across tasks (0.893-0.894 AUC)
+- **UCE barely beats Raw_LogReg** (0.876 vs 0.878) - questions foundation model value
 
 ---
 

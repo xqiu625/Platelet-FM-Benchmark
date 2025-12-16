@@ -1,0 +1,16 @@
+model,task,classifier,accuracy,balanced_accuracy,auc_macro,auc_weighted,f1_macro,f1_weighted
+STATE,binary,LogisticRegression,0.8110,0.8124,0.8940,0.8940,0.8100,0.8100
+STATE,3-class,LogisticRegression,0.7510,0.7510,0.8930,0.8930,0.7500,0.7500
+STATE,6-class,LogisticRegression,0.6420,0.6420,0.8940,0.8940,0.6400,0.6400
+UCE,binary,LogisticRegression,0.7884,0.7929,0.8760,0.8760,0.7870,0.7870
+UCE,3-class,LogisticRegression,0.7480,0.7480,0.8850,0.8850,0.7450,0.7450
+UCE,6-class,LogisticRegression,0.6310,0.6310,0.8880,0.8880,0.6280,0.6280
+TranscriptFormer,binary,LogisticRegression,0.7548,0.7600,0.8380,0.8380,0.7530,0.7530
+TranscriptFormer,3-class,LogisticRegression,0.7160,0.7160,0.8510,0.8510,0.7130,0.7130
+TranscriptFormer,6-class,LogisticRegression,0.5790,0.5790,0.8490,0.8490,0.5760,0.5760
+scGPT,binary,LogisticRegression,0.7320,0.7320,0.8330,0.8330,0.7290,0.7290
+scGPT,3-class,LogisticRegression,0.5560,0.5560,0.7470,0.7470,0.5530,0.5530
+scGPT,6-class,LogisticRegression,0.5190,0.5190,0.8100,0.8100,0.5160,0.5160
+Geneformer,binary,LogisticRegression,0.7450,0.7450,0.8240,0.8240,0.7420,0.7420
+Geneformer,3-class,LogisticRegression,0.6770,0.6770,0.8330,0.8330,0.6740,0.6740
+Geneformer,6-class,LogisticRegression,0.5230,0.5230,0.8210,0.8210,0.5200,0.5200
