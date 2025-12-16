@@ -10,9 +10,9 @@
   <a href="#key-results">Results</a> •
   <a href="#foundation-models">Models</a> •
   <a href="#visualizations">Visualizations</a> •
+  <a href="#-perturbation-analysis-for-drug-discovery">Drug Discovery</a> •
   <a href="#data">Data</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#roadmap">Roadmap</a>
+  <a href="#usage">Usage</a>
 </p>
 
 ---
@@ -43,8 +43,10 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 ### Key Question
 > *Can foundation models pre-trained on millions of single cells capture disease-relevant patterns in platelets for infection severity and cardiovascular risk prediction?*
 
-### Key Finding
-> **Raw XGBoost (0.897 AUC) beats all foundation models!** Among foundation models, **STATE (Arc Institute) achieves 0.894 AUC**, outperforming UCE (0.876), TranscriptFormer (0.838), scGPT (0.833), and Geneformer (0.824). Three foundation models underperform simple PCA baselines.
+### Key Findings
+> **1. Raw XGBoost (0.897 AUC) beats all foundation models!** Among foundation models, **STATE (Arc Institute) achieves 0.894 AUC**, outperforming UCE (0.876), TranscriptFormer (0.838), scGPT (0.833), and Geneformer (0.824). Three foundation models underperform simple PCA baselines.
+>
+> **2. STATE and UCE identify completely different therapeutic targets** when mapping ~178K perturbation cells to COVID severity states. No overlap in top 50 candidates suggests models capture different biological signals.
 
 ---
 
