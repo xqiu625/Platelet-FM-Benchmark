@@ -148,7 +148,7 @@ Platelets play a critical role in both **infection response** and **cardiovascul
 
 ## 💊 Perturbation Analysis for Drug Discovery
 
-Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT116) to COVID severity states to identify potential therapeutic candidates.
+Using **STATE** and **UCE** embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT116) to COVID severity states to identify potential therapeutic candidates.
 
 ### Approach
 1. Compute severity centroids from COVID platelet embeddings
@@ -156,36 +156,58 @@ Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT11
 3. Score each perturbation by projection onto recovery direction
 4. Identify perturbations that shift transcriptional states toward recovery
 
-### Perturbation Landscape
+### STATE vs UCE Comparison Dashboard
 
 <p align="center">
-  <img src="figures/uce_perturbation_landscape.png" alt="Perturbation Landscape" width="900"/>
+  <img src="figures/perturbation_analysis/comparison_summary_dashboard.png" alt="STATE vs UCE Dashboard" width="900"/>
 </p>
 
-### Top Therapeutic Candidates
+### Top Therapeutic Candidates: STATE vs UCE
 
-| Rank | Gene Target | Recovery Score | Closest State | Cells |
-|:----:|-------------|:--------------:|:-------------:|:-----:|
-| 1 | **ICMT** | 27.15 | recovered | 5 |
-| 2 | **ZNF766** | 27.10 | recovered | 6 |
-| 3 | **MED31** | 27.08 | recovered | 5 |
-| 4 | **ZFP30** | 27.02 | recovered | 5 |
-| 5 | **DUSP11** | 26.98 | recovered | 6 |
-| 6 | **SLC28A1** | 26.96 | recovered | 5 |
-| 7 | **ESD** | 26.95 | recovered | 5 |
-| 8 | **AGPAT3** | 26.93 | recovered | 5 |
-| 9 | **B4GALT1** | 26.89 | recovered | 5 |
-| 10 | **RAMP3** | 26.85 | recovered | 5 |
+| Rank | STATE Gene | Score | UCE Gene | Score |
+|:----:|------------|:-----:|----------|:-----:|
+| 1 | **NUTM2G** | 24.78 | **ICMT** | 27.15 |
+| 2 | **CASQ1** | 24.60 | **ZNF766** | 27.10 |
+| 3 | **HSPB8** | 24.57 | **MED31** | 27.08 |
+| 4 | **BTNL9** | 24.53 | **ZFP30** | 27.02 |
+| 5 | **TBC1D10C** | 24.49 | **DUSP11** | 26.98 |
+| 6 | **SUSD3** | 24.45 | **SLC28A1** | 26.96 |
+| 7 | **WNT3** | 24.42 | **ESD** | 26.95 |
+| 8 | **NXPE3** | 24.39 | **AGPAT3** | 26.93 |
+| 9 | **ZNF302** | 24.37 | **B4GALT1** | 26.89 |
+| 10 | **NALF1** | 24.33 | **RAMP3** | 26.85 |
 
-### Therapeutic Rankings
+### Top Candidates Comparison
 
 <p align="center">
-  <img src="figures/uce_therapeutic_rankings.png" alt="Therapeutic Rankings" width="900"/>
+  <img src="figures/perturbation_analysis/comparison_top_candidates.png" alt="Top Candidates Comparison" width="900"/>
+</p>
+
+### Perturbation Landscapes
+
+<p align="center">
+  <img src="figures/perturbation_analysis/state_perturbation_landscape.png" alt="STATE Perturbation Landscape" width="450"/>
+  <img src="figures/perturbation_analysis/uce_perturbation_landscape.png" alt="UCE Perturbation Landscape" width="450"/>
+</p>
+
+### Key Findings
+
+| Finding | Details |
+|---------|---------|
+| **No overlap in top 50** | STATE and UCE identify completely different therapeutic targets |
+| **Different pathways** | STATE: calcium signaling, autophagy, Wnt; UCE: prenylation, glycosylation, lipid metabolism |
+| **Score ranges** | UCE (26.8-27.2) vs STATE (24.3-24.8) |
+| **Both target recovery** | All top candidates closest to "recovered" severity state |
+
+### Candidate Overlap Analysis
+
+<p align="center">
+  <img src="figures/perturbation_analysis/comparison_venn_overlap.png" alt="Venn Diagram" width="500"/>
 </p>
 
 ### Analysis Summary
-- **Total perturbations analyzed:** 16,248
-- **Therapeutic candidates identified:** 50 (high recovery score, closest to recovered/healthy)
+- **Total perturbations analyzed:** 16,248 (per model)
+- **Therapeutic candidates identified:** 50 per model (high recovery score, closest to recovered/healthy)
 - **Data sources:** HEK293T (88,434 cells) + HCT116 (89,738 cells) from the [X-Atlas/Orion genome-wide Perturb-seq dataset](https://doi.org/10.1101/2025.06.11.659105) (Huang et al., bioRxiv 2025)
 
 📄 **Detailed Report:** [results/perturbation_analysis/PERTURBATION_ANALYSIS_REPORT.md](results/perturbation_analysis/PERTURBATION_ANALYSIS_REPORT.md)
