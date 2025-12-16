@@ -3,10 +3,6 @@
 **Benchmarking Single-Cell Foundation Models on Platelet Transcriptomics for Infection Severity and Cardiovascular Risk Prediction**
 
 <p align="center">
-  <img src="figures/badge_best_model.png" alt="Best Model Badge" width="450"/>
-</p>
-
-<p align="center">
   <a href="#key-results">Results</a> •
   <a href="#foundation-models">Models</a> •
   <a href="#visualizations">Visualizations</a> •
