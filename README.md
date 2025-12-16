@@ -188,6 +188,8 @@ Using UCE embeddings, we mapped **~178,000 perturbation cells** (HEK293T + HCT11
 - **Therapeutic candidates identified:** 50 (high recovery score, closest to recovered/healthy)
 - **Data sources:** HEK293T (88,434 cells) + HCT116 (89,738 cells) from the [X-Atlas/Orion genome-wide Perturb-seq dataset](https://doi.org/10.1101/2025.06.11.659105) (Huang et al., bioRxiv 2025)
 
+📄 **Detailed Report:** [results/perturbation_analysis/PERTURBATION_ANALYSIS_REPORT.md](results/perturbation_analysis/PERTURBATION_ANALYSIS_REPORT.md)
+
 ---
 
 ## 📁 Data
