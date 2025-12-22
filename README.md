@@ -34,22 +34,9 @@ In our 2024 paper, we identified distinct platelet subpopulations associated wit
 
 We use **foundation model embeddings to bridge disease transcriptomes with perturbation libraries across cell types**. By projecting both COVID-19 platelet data and large-scale perturbation screens (HEK293T, HCT116) into a shared embedding space, we identify **which genetic perturbations shift cells toward recovery states**—even though the perturbations were performed in different cell types.
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    Shared Foundation Model Embedding Space               │
-│                                                                          │
-│   COVID Platelets                      Perturbation Library              │
-│   (47K cells)                          (178K cells, 16K perturbations)   │
-│                                                                          │
-│   healthy ●                                        ● recovered           │
-│            ╲                                      ╱                      │
-│             ╲    ◄── recovery direction ──►     ╱                        │
-│              ●────────────────────────────────●                          │
-│            severe                           fatal                        │
-│                                                                          │
-│   Which perturbations shift cells TOWARD recovery? ──► Drug candidates   │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="Platelet-FM-Benchmark-overview.jpeg" alt="Platelet-FM-Benchmark Overview" width="800"/>
+</p>
 
 ### Key Questions
 
