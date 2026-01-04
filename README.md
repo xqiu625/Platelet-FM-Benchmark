@@ -3,12 +3,13 @@
 **Benchmarking Single-Cell Foundation Models for Disease Severity Prediction and Cross-Cell-Type Therapeutic Target Discovery**
 
 <p align="center">
-  <a href="#key-results">Results</a> •
+  <a href="#-key-results">Results</a> •
   <a href="#-fine-tuning-breakthrough">Fine-Tuning</a> •
-  <a href="#foundation-models">Models</a> •
+  <a href="#-robustness-analysis">Robustness</a> •
+  <a href="#-clinical-utility-metrics">Clinical</a> •
+  <a href="#-biomarker-discovery">Biomarkers</a> •
   <a href="#-perturbation-analysis-for-drug-discovery">Drug Discovery</a> •
-  <a href="#visualizations">Visualizations</a> •
-  <a href="#data">Data</a>
+  <a href="#-visualizations">Visualizations</a>
 </p>
 
 ---
@@ -143,6 +144,16 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 | 6 | TranscriptFormer | 0.838 | Foundation |
 | 7 | scGPT | 0.735 | Foundation |
 
+<p align="center">
+  <img src="figures/fig_model_rankings.png" alt="Model Rankings" width="800"/>
+</p>
+
+### Zero-Shot vs Fine-Tuned Comparison
+
+<p align="center">
+  <img src="figures/fig_zeroshot_vs_finetuned.png" alt="Zero-Shot vs Fine-Tuned" width="800"/>
+</p>
+
 **Bottom line:** Fine-tuned foundation models decisively beat all baselines
 
 ---
@@ -199,6 +210,24 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 - **Cohen's κ**: STATE shows substantial agreement (0.611) with true labels
 - **AUC-PR**: Important for imbalanced data; STATE leads at 0.934
 
+### ROC Curves Comparison
+
+<p align="center">
+  <img src="figures/fig_roc_curves.png" alt="ROC Curves" width="800"/>
+</p>
+
+### Confusion Matrices
+
+<p align="center">
+  <img src="figures/fig_confusion_matrix.png" alt="Confusion Matrices" width="900"/>
+</p>
+
+### Statistical Significance
+
+<p align="center">
+  <img src="figures/fig_statistical_significance.png" alt="Statistical Significance" width="800"/>
+</p>
+
 ---
 
 ## 🔬 Foundation Models Compared
@@ -246,6 +275,16 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 <p align="center">
   <img src="figures/fig_gene_dropout.png" alt="Gene Dropout" width="700"/>
 </p>
+
+---
+
+## 🧬 Biomarker Discovery
+
+<p align="center">
+  <img src="figures/fig_biomarkers.png" alt="Biomarkers" width="900"/>
+</p>
+
+Foundation models identify key genes that distinguish severe from non-severe COVID-19 cases. Feature importance analysis reveals biologically relevant biomarkers including platelet activation, inflammatory response, and coagulation pathway genes.
 
 ---
 
@@ -509,6 +548,12 @@ Platelet-FM-Benchmark/
 ├── README.md                           # This file
 ├── requirements.txt                    # Dependencies
 ├── figures/                            # Generated visualizations
+│   ├── fig_model_rankings.png          # Model performance rankings
+│   ├── fig_zeroshot_vs_finetuned.png   # Zero-shot vs fine-tuned comparison
+│   ├── fig_roc_curves.png              # ROC curves for all models
+│   ├── fig_confusion_matrix.png        # Confusion matrices
+│   ├── fig_statistical_significance.png # Bootstrap CI & significance tests
+│   ├── fig_biomarkers.png              # Top biomarkers by model
 │   ├── fig_robustness_summary.png      # 3-panel robustness analysis
 │   ├── fig_clinical_metrics.png        # Clinical utility metrics
 │   ├── fig_sample_efficiency.png       # Sample efficiency curves
