@@ -86,11 +86,7 @@ We use **foundation model embeddings to bridge disease transcriptomes with pertu
 | scGPT | 0.833 | 0.747 | 0.810 | 0.797 |
 
 <p align="center">
-  <img src="figures/fig1_model_comparison.png" alt="Model Comparison" width="800"/>
-</p>
-
-<p align="center">
-  <img src="figures/fig3_auc_comparison.png" alt="AUC Comparison" width="700"/>
+  <img src="figures/umap_4models_6class.png" alt="UMAP 4 Models 6-class" width="800"/>
 </p>
 
 ### Key Insights (Zero-Shot)
@@ -233,28 +229,22 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
   <img src="figures/umap_4models_binary.png" alt="UMAP 4 Models Binary" width="900"/>
 </p>
 
-### UCE: PCA, UMAP, t-SNE Comparison
-
-<p align="center">
-  <img src="figures/uce_pca_umap_tsne_6class.png" alt="UCE Methods Comparison" width="900"/>
-</p>
-
-### UCE: Severity Gradient Visualization
+### Severity Gradient Visualization
 
 <p align="center">
   <img src="figures/uce_severity_gradient.png" alt="Severity Gradient" width="600"/>
 </p>
 
-### Comprehensive: 4 Models × 3 Methods
+### Sample Efficiency Curves
 
 <p align="center">
-  <img src="figures/mega_comparison_4models_3methods.png" alt="Mega Comparison" width="900"/>
+  <img src="figures/fig_sample_efficiency.png" alt="Sample Efficiency" width="700"/>
 </p>
 
-### Performance Heatmap
+### Gene Dropout Robustness
 
 <p align="center">
-  <img src="figures/fig2_heatmap.png" alt="Performance Heatmap" width="600"/>
+  <img src="figures/fig_gene_dropout.png" alt="Gene Dropout" width="700"/>
 </p>
 
 ---
@@ -518,13 +508,15 @@ python scripts/analysis/create_embedding_visualizations.py
 Platelet-FM-Benchmark/
 ├── README.md                           # This file
 ├── requirements.txt                    # Dependencies
-├── figures/                            # Generated visualizations (PNG + PDF)
-│   ├── fig1_model_comparison.png/pdf   # Main benchmark results
-│   ├── fig2_heatmap.png/pdf            # Performance heatmap
-│   ├── fig3_auc_comparison.png/pdf     # AUC comparison
+├── figures/                            # Generated visualizations
+│   ├── fig_robustness_summary.png      # 3-panel robustness analysis
+│   ├── fig_clinical_metrics.png        # Clinical utility metrics
+│   ├── fig_sample_efficiency.png       # Sample efficiency curves
+│   ├── fig_gene_dropout.png            # Gene dropout robustness
+│   ├── fig_batch_generalization.png    # COVID→Sepsis transfer
 │   ├── umap_4models_6class.png/pdf     # UMAP comparisons
-│   ├── uce_perturbation_landscape.png/pdf  # Perturbation UMAP
-│   ├── uce_therapeutic_rankings.png/pdf    # Drug target rankings
+│   ├── umap_4models_binary.png/pdf     # Binary UMAP
+│   ├── uce_severity_gradient.png       # Severity gradient
 │   └── perturbation_analysis/          # STATE vs UCE comparisons
 ├── scripts/
 │   └── analysis/
