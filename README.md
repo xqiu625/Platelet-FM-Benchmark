@@ -87,7 +87,7 @@ We use **foundation model embeddings to bridge disease transcriptomes with pertu
 | scGPT | 0.833 | 0.747 | 0.810 | 0.797 |
 
 <p align="center">
-  <img src="figures/umap_4models_6class.png" alt="UMAP 4 Models 6-class" width="800"/>
+  <img src="figures/umap_5models_6class.png" alt="UMAP 5 Models 6-class" width="900"/>
 </p>
 
 ### Key Insights (Zero-Shot)
@@ -246,22 +246,22 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 
 ## 📊 Visualizations
 
-### UMAP: 4 Models × 6 Severity Classes
+### UMAP: 5 Models × 6 Severity Classes
 
 <p align="center">
-  <img src="figures/umap_4models_6class.png" alt="UMAP 4 Models 6-class" width="900"/>
+  <img src="figures/umap_5models_6class.png" alt="UMAP 5 Models 6-class" width="900"/>
 </p>
 
 ### UMAP: Binary Classification (Severe vs Non-Severe)
 
 <p align="center">
-  <img src="figures/umap_4models_binary.png" alt="UMAP 4 Models Binary" width="900"/>
+  <img src="figures/umap_5models_binary.png" alt="UMAP 5 Models Binary" width="900"/>
 </p>
 
 ### Severity Gradient Visualization
 
 <p align="center">
-  <img src="figures/uce_severity_gradient.png" alt="Severity Gradient" width="600"/>
+  <img src="figures/state_severity_gradient.png" alt="STATE Severity Gradient" width="600"/>
 </p>
 
 ### Sample Efficiency Curves
@@ -559,9 +559,9 @@ Platelet-FM-Benchmark/
 │   ├── fig_sample_efficiency.png       # Sample efficiency curves
 │   ├── fig_gene_dropout.png            # Gene dropout robustness
 │   ├── fig_batch_generalization.png    # COVID→Sepsis transfer
-│   ├── umap_4models_6class.png/pdf     # UMAP comparisons
-│   ├── umap_4models_binary.png/pdf     # Binary UMAP
-│   ├── uce_severity_gradient.png       # Severity gradient
+│   ├── umap_5models_6class.png/pdf     # UMAP comparisons (all 5 models)
+│   ├── umap_5models_binary.png/pdf     # Binary UMAP (all 5 models)
+│   ├── state_severity_gradient.png     # STATE severity gradient
 │   └── perturbation_analysis/          # STATE vs UCE comparisons
 ├── scripts/
 │   └── analysis/

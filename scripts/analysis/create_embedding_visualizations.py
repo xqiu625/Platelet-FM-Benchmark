@@ -64,6 +64,7 @@ BINARY_COLORS = {
 }
 
 MODEL_COLORS = {
+    'STATE': '#f39c12',        # Orange (best performer)
     'UCE': '#2ecc71',
     'scGPT': '#e74c3c',
     'TranscriptFormer': '#3498db',
@@ -76,6 +77,10 @@ def load_embeddings(base_dir):
     embedding_dir = Path(base_dir) / "02_EMBEDDINGS"
 
     configs = {
+        'STATE': {
+            'files': [embedding_dir / "state/covid_state.h5ad"],
+            'obsm_keys': ['X_emb', 'X_state']
+        },
         'UCE': {
             'files': [embedding_dir / "uce/human_platelet_covid_severity_uce_adata.h5ad"],
             'obsm_keys': ['X_uce', 'X_uce_4layer']
@@ -250,16 +255,16 @@ def plot_single_embedding(coords, labels, title, ax, colors_dict, alpha=0.5, s=5
         ax.legend(loc='best', markerscale=3, fontsize=8)
 
 
-def fig_umap_comparison_4models(data, output_dir, n_samples=10000):
+def fig_umap_comparison_5models(data, output_dir, n_samples=10000):
     """
-    Create UMAP comparison across all 4 models (2x2 grid)
+    Create UMAP comparison across all 5 models (3x2 grid)
     """
     logger.info("Creating UMAP comparison figure...")
 
-    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12))
     axes = axes.flatten()
 
-    model_order = ['UCE', 'TranscriptFormer', 'Geneformer', 'scGPT']
+    model_order = ['STATE', 'UCE', 'Geneformer', 'TranscriptFormer', 'scGPT']
 
     for idx, model_name in enumerate(model_order):
         if model_name not in data:
@@ -289,27 +294,30 @@ def fig_umap_comparison_4models(data, output_dir, n_samples=10000):
         plot_single_embedding(coords, y, f'{model_name}\n({X.shape[1]} dims)',
                               axes[idx], SEVERITY_COLORS, alpha=0.6, s=8)
 
+    # Hide the 6th empty subplot
+    axes[5].set_axis_off()
+
     plt.suptitle('UMAP Visualization: COVID-19 Severity by Foundation Model\n(6-class)',
                  fontsize=16, fontweight='bold', y=1.02)
     plt.tight_layout()
 
     output_dir = Path(output_dir)
-    plt.savefig(output_dir / 'umap_4models_6class.png')
-    plt.savefig(output_dir / 'umap_4models_6class.pdf')
+    plt.savefig(output_dir / 'umap_5models_6class.png')
+    plt.savefig(output_dir / 'umap_5models_6class.pdf')
     plt.close()
-    logger.info("Saved: umap_4models_6class.png/pdf")
+    logger.info("Saved: umap_5models_6class.png/pdf")
 
 
-def fig_umap_binary_4models(data, output_dir, n_samples=10000):
+def fig_umap_binary_5models(data, output_dir, n_samples=10000):
     """
     UMAP comparison with binary labels (severe vs non-severe)
     """
     logger.info("Creating UMAP binary comparison figure...")
 
-    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12))
     axes = axes.flatten()
 
-    model_order = ['UCE', 'TranscriptFormer', 'Geneformer', 'scGPT']
+    model_order = ['STATE', 'UCE', 'Geneformer', 'TranscriptFormer', 'scGPT']
 
     for idx, model_name in enumerate(model_order):
         if model_name not in data:
@@ -339,15 +347,18 @@ def fig_umap_binary_4models(data, output_dir, n_samples=10000):
         plot_single_embedding(coords, y, f'{model_name}\n({X.shape[1]} dims)',
                               axes[idx], BINARY_COLORS, alpha=0.6, s=8)
 
+    # Hide the 6th empty subplot
+    axes[5].set_axis_off()
+
     plt.suptitle('UMAP Visualization: COVID-19 Severity by Foundation Model\n(Binary: Severe vs Non-Severe)',
                  fontsize=16, fontweight='bold', y=1.02)
     plt.tight_layout()
 
     output_dir = Path(output_dir)
-    plt.savefig(output_dir / 'umap_4models_binary.png')
-    plt.savefig(output_dir / 'umap_4models_binary.pdf')
+    plt.savefig(output_dir / 'umap_5models_binary.png')
+    plt.savefig(output_dir / 'umap_5models_binary.pdf')
     plt.close()
-    logger.info("Saved: umap_4models_binary.png/pdf")
+    logger.info("Saved: umap_5models_binary.png/pdf")
 
 
 def fig_all_methods_single_model(data, model_name, output_dir, n_samples=8000):
@@ -550,14 +561,14 @@ def fig_severity_progression(data, model_name, output_dir, n_samples=10000):
 
 def fig_combined_mega_figure(data, output_dir, n_samples=8000):
     """
-    Mega figure: 4 models x 3 methods (PCA, UMAP, t-SNE)
+    Mega figure: 5 models x 3 methods (PCA, UMAP, t-SNE)
     """
     logger.info("Creating mega comparison figure...")
 
-    model_order = ['UCE', 'TranscriptFormer', 'Geneformer', 'scGPT']
+    model_order = ['STATE', 'UCE', 'Geneformer', 'TranscriptFormer', 'scGPT']
     methods = ['PCA', 'UMAP', 'tSNE']
 
-    fig, axes = plt.subplots(4, 3, figsize=(18, 22))
+    fig, axes = plt.subplots(5, 3, figsize=(18, 28))
 
     for row, model_name in enumerate(model_order):
         if model_name not in data:
@@ -587,10 +598,10 @@ def fig_combined_mega_figure(data, output_dir, n_samples=8000):
     plt.tight_layout()
 
     output_dir = Path(output_dir)
-    plt.savefig(output_dir / 'mega_comparison_4models_3methods.png')
-    plt.savefig(output_dir / 'mega_comparison_4models_3methods.pdf')
+    plt.savefig(output_dir / 'mega_comparison_5models_3methods.png')
+    plt.savefig(output_dir / 'mega_comparison_5models_3methods.pdf')
     plt.close()
-    logger.info("Saved: mega_comparison_4models_3methods.png/pdf")
+    logger.info("Saved: mega_comparison_5models_3methods.png/pdf")
 
 
 def fig_silhouette_comparison(data, output_dir, n_samples=5000):
@@ -603,7 +614,7 @@ def fig_silhouette_comparison(data, output_dir, n_samples=5000):
 
     results = []
 
-    for model_name in ['UCE', 'TranscriptFormer', 'Geneformer', 'scGPT']:
+    for model_name in ['STATE', 'UCE', 'Geneformer', 'TranscriptFormer', 'scGPT']:
         if model_name not in data:
             continue
 
@@ -702,16 +713,16 @@ def main():
     logger.info("="*60)
 
     # 1. UMAP comparisons
-    fig_umap_comparison_4models(data, output_dir)
-    fig_umap_binary_4models(data, output_dir)
+    fig_umap_comparison_5models(data, output_dir)
+    fig_umap_binary_5models(data, output_dir)
 
-    # 2. All methods for each model (focus on UCE - best performer)
+    # 2. All methods for each model (focus on STATE - best performer)
+    fig_all_methods_single_model(data, 'STATE', output_dir)
     fig_all_methods_single_model(data, 'UCE', output_dir)
-    fig_all_methods_single_model(data, 'TranscriptFormer', output_dir)
 
-    # 3. Fancy visualizations for UCE
-    fig_fancy_umap_with_density(data, 'UCE', output_dir)
-    fig_severity_progression(data, 'UCE', output_dir)
+    # 3. Fancy visualizations for STATE (best performer)
+    fig_fancy_umap_with_density(data, 'STATE', output_dir)
+    fig_severity_progression(data, 'STATE', output_dir)
 
     # 4. Mega comparison figure
     fig_combined_mega_figure(data, output_dir)
