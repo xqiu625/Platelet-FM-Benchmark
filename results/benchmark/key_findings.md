@@ -1,6 +1,6 @@
 # Key Benchmark Findings
 
-## Last Updated: December 15, 2025
+## Last Updated: December 21, 2025
 
 ---
 
@@ -107,4 +107,4 @@
 
 ---
 
-_Last updated: December 15, 2025_
+_Last updated: December 21, 2025_
