@@ -153,6 +153,10 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 
 ## 📊 Robustness Analysis
 
+<p align="center">
+  <img src="figures/fig_robustness_summary.png" alt="Robustness Summary" width="900"/>
+</p>
+
 ### Sample Efficiency (% drop at 5% training data)
 
 | Rank | Model | Drop | Interpretation |
@@ -181,6 +185,10 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 ---
 
 ## 🏥 Clinical Utility Metrics
+
+<p align="center">
+  <img src="figures/fig_clinical_metrics.png" alt="Clinical Metrics" width="800"/>
+</p>
 
 | Model | AUC-ROC | AUC-PR | Sens@90%Spec | Cohen's κ |
 |-------|:-------:|:------:|:------------:|:---------:|
