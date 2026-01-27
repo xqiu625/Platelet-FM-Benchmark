@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="#-key-results">Results</a> •
-  <a href="#-fine-tuning-breakthrough">Fine-Tuning</a> •
+  <a href="#-embedding-classification-breakthrough">Embedding Classification</a> •
   <a href="#-robustness-analysis">Robustness</a> •
   <a href="#-clinical-utility-metrics">Clinical</a> •
   <a href="#-biomarker-discovery">Biomarkers</a> •
@@ -23,7 +23,7 @@ This project is a **follow-up study** to our published work:
 > 📄 [Read the paper](https://www.mdpi.com/1422-0067/25/11/5941)
 
 In our 2024 paper, we identified distinct platelet subpopulations associated with disease severity using traditional machine learning approaches. **This current project extends that work** by leveraging state-of-the-art **single-cell foundation models** to:
-- Improve severity prediction accuracy through fine-tuning
+- Improve severity prediction accuracy through embedding classification (training classifiers on frozen embeddings)
 - Enable **cross-cell-type therapeutic target discovery**
 - Identify perturbations that shift transcriptional states toward recovery
 
@@ -42,13 +42,13 @@ We use **foundation model embeddings to bridge disease transcriptomes with pertu
 ### Key Questions
 
 1. **Which foundation model best predicts COVID-19 severity from platelet transcriptomes?**
-2. **Can fine-tuning unlock additional performance beyond zero-shot evaluation?**
+2. **Can embedding classification unlock additional performance beyond zero-shot evaluation?**
 3. **Which genetic perturbations reverse disease-associated transcriptional states?**
 4. **Do different foundation models identify different therapeutic candidates?**
 
 ### Key Findings
 
-> **1. STATE achieves best performance at 0.944 AUC** (fine-tuned), with UCE second at 0.910 AUC. Both significantly outperform baselines.
+> **1. STATE achieves best performance at 0.951 AUC** (6-class embedding classification), with UCE second at 0.910 AUC. Both significantly outperform baselines.
 >
 > **2. UCE shows superior robustness** - only -7% drop at 5% training data (most sample-efficient) and -1.7% at 70% gene dropout (most robust).
 >
@@ -84,77 +84,85 @@ We use **foundation model embeddings to bridge disease transcriptomes with pertu
 | UCE | 0.876 | 0.885 | 0.888 | 0.883 |
 | TranscriptFormer | 0.838 | 0.851 | 0.849 | 0.846 |
 | Geneformer | 0.824 | 0.833 | 0.821 | 0.826 |
+| scGPT_BP | 0.810 | 0.815 | 0.818 | 0.814 |
 | scGPT | 0.833 | 0.747 | 0.810 | 0.797 |
 
 <p align="center">
-  <img src="figures/umap_5models_6class.png" alt="UMAP 5 Models 6-class" width="900"/>
+  <img src="figures/umap_5models_6class.png" alt="UMAP 6 Models 6-class" width="900"/>
 </p>
 
 ### Key Insights (Zero-Shot)
 
 - **Raw XGBoost beats all zero-shot foundation models** (0.897 vs 0.894 for STATE)
-- **3 of 5 foundation models underperform PCA baselines** (TranscriptFormer, scGPT, Geneformer)
+- **4 of 6 foundation models underperform PCA baselines** (TranscriptFormer, scGPT, scGPT_BP, Geneformer)
 - **STATE is remarkably consistent** across tasks (0.893-0.894 AUC)
 - Zero-shot evaluation alone questions foundation model value for this task
 
 ---
 
-## 🚀 Fine-Tuning Breakthrough
+## 🚀 Embedding Classification Breakthrough
 
-**Fine-tuning unlocks the true potential of foundation model embeddings.**
+**Training classifiers on frozen foundation model embeddings unlocks their true potential.**
 
-### Fine-Tuning Results (Binary Classification)
+> **Important Clarification:** This is NOT true fine-tuning of foundation models. We use **pre-computed, frozen embeddings** and train only the classification head. The foundation models themselves are never modified, which complies with model licenses (e.g., UCE).
 
-| Model | Zero-Shot | Fine-Tuned | Improvement | vs XGBoost (0.897) |
-|-------|:---------:|:----------:|:-----------:|:------------------:|
-| **STATE** | 0.895 | **0.944** | **+5.5%** | **+5.2%** |
+### Embedding Classification Results (Binary Classification)
+
+| Model | Zero-Shot | Embedding Classifier | Improvement | vs XGBoost (0.897) |
+|-------|:---------:|:--------------------:|:-----------:|:------------------:|
+| **STATE** | 0.895 | **0.951** | **+6.3%** | **+6.0%** |
 | **UCE** | 0.877 | **0.910** | **+3.8%** | **+1.4%** |
 | Geneformer | 0.813 | **0.845** | **+3.9%** | -5.8% |
-| TranscriptFormer | 0.838 | **0.838** | - | -6.6% |
+| TranscriptFormer | 0.838 | **0.874** | **+4.3%** | -2.6% |
 | scGPT | 0.775 | **0.735** | -5.2% | -18.1% |
+| scGPT_BP | 0.810 | **0.804** | -0.7% | -10.4% |
 
-### Fine-Tuning Strategies Compared
+### Classification Strategies Compared
 
 | Strategy | STATE | UCE | TranscriptFormer | Description |
 |----------|:-----:|:---:|:----------------:|-------------|
 | Zero-Shot (LogReg) | 0.894 | 0.876 | 0.838 | Baseline |
-| Linear Probe | 0.883 | 0.842 | 0.796 | Freeze embeddings |
-| **Deep MLP** | **0.943** | **0.910** | **0.874** | **3-layer MLP + BatchNorm** |
+| Linear Probe | 0.883 | 0.842 | 0.796 | Simple linear layer |
+| **Deep MLP** | **0.951** | **0.910** | **0.874** | **3-layer MLP + BatchNorm** |
 | Residual MLP | 0.940 | 0.909 | - | MLP with skip connections |
 | Attention | 0.915 | 0.888 | - | Self-attention classifier |
 
-### Why Fine-Tuning Works
+### Why Embedding Classification Works
 
-Foundation model embeddings capture rich biological information, but **class boundaries are non-linear** in embedding space. Deep MLP classifiers with BatchNorm and Dropout learn these complex decision boundaries.
+Foundation model embeddings capture rich biological information, but **class boundaries are non-linear** in embedding space. Deep MLP classifiers with BatchNorm and Dropout learn these complex decision boundaries while keeping the embeddings frozen.
 
 ```
+[Pre-computed Embeddings] → [Classifier Head] → [Predictions]
+       (frozen)               (trainable)
+
 Linear Probe:     Severe ────────────── Non-severe  (misses curved structure)
 Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundary)
 ```
 
-### Updated Rankings (With Fine-Tuning)
+### Updated Rankings (With Embedding Classification)
 
 | Rank | Method | AUC | Type |
 |:----:|--------|:---:|:----:|
-| 🥇 | **STATE (fine-tuned)** | **0.944** | Foundation |
-| 🥈 | **UCE (fine-tuned)** | **0.910** | Foundation |
+| 🥇 | **STATE (DeepMLP)** | **0.951** | Foundation |
+| 🥈 | **UCE (DeepMLP)** | **0.910** | Foundation |
 | 🥉 | Raw_XGBoost | 0.897 | Baseline |
 | 4 | STATE (zero-shot) | 0.895 | Foundation |
-| 5 | Geneformer (fine-tuned) | 0.845 | Foundation |
-| 6 | TranscriptFormer | 0.838 | Foundation |
-| 7 | scGPT | 0.735 | Foundation |
+| 5 | TranscriptFormer (DeepMLP) | 0.874 | Foundation |
+| 6 | Geneformer (DeepMLP) | 0.845 | Foundation |
+| 7 | scGPT_BP (DeepMLP) | 0.804 | Foundation |
+| 8 | scGPT (DeepMLP) | 0.735 | Foundation |
 
 <p align="center">
   <img src="figures/fig_model_rankings.png" alt="Model Rankings" width="800"/>
 </p>
 
-### Zero-Shot vs Fine-Tuned Comparison
+### Zero-Shot vs Embedding Classifier Comparison
 
 <p align="center">
-  <img src="figures/fig_zeroshot_vs_finetuned.png" alt="Zero-Shot vs Fine-Tuned" width="800"/>
+  <img src="figures/fig_zeroshot_vs_finetuned.png" alt="Zero-Shot vs Embedding Classifier" width="800"/>
 </p>
 
-**Bottom line:** Fine-tuned foundation models decisively beat all baselines
+**Bottom line:** Foundation models with trained classifiers decisively beat all baselines
 
 ---
 
@@ -237,6 +245,7 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 | [**STATE**](https://github.com/ArcInstitute/state) | bioRxiv 2025 | Large-scale | Transformer + ESM2 | Perturbation response |
 | [**UCE**](https://github.com/snap-stanford/UCE) | bioRxiv 2023 | 36M cells | Transformer + ESM2 | Cross-species |
 | [**scGPT**](https://github.com/bowang-lab/scGPT) | Nat Methods 2024 | 33M cells | GPT-style | Multi-omics |
+| [**scGPT_BP**](https://github.com/bowang-lab/scGPT) | Nat Methods 2024 | 33M cells | GPT-style | Blood & Peripheral |
 | [**Geneformer**](https://huggingface.co/ctheodoris/Geneformer) | Nature 2023 | 30M cells | BERT-style | Network biology |
 | [**TranscriptFormer**](https://virtualcellmodels.cziscience.com) | bioRxiv 2025 | 112M cells | Autoregressive | Generative |
 
@@ -246,16 +255,16 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 
 ## 📊 Visualizations
 
-### UMAP: 5 Models × 6 Severity Classes
+### UMAP: 6 Models × 6 Severity Classes
 
 <p align="center">
-  <img src="figures/umap_5models_6class.png" alt="UMAP 5 Models 6-class" width="900"/>
+  <img src="figures/umap_5models_6class.png" alt="UMAP 6 Models 6-class" width="900"/>
 </p>
 
 ### UMAP: Binary Classification (Severe vs Non-Severe)
 
 <p align="center">
-  <img src="figures/umap_5models_binary.png" alt="UMAP 5 Models Binary" width="900"/>
+  <img src="figures/umap_5models_binary.png" alt="UMAP 6 Models Binary" width="900"/>
 </p>
 
 ### Severity Gradient Visualization
@@ -440,18 +449,22 @@ Step 5: Top candidates = perturbations that best reverse disease trajectory
 ┌─────────────────────────────────────────────────────────────────────────┐
 │  COVID Platelets (47K cells)                                            │
 │         ↓                                                               │
-│  Foundation Model Embeddings (STATE, UCE, scGPT, Geneformer, TF)       │
+│  Foundation Model Embeddings (STATE, UCE, scGPT, scGPT_BP, Geneformer, │
+│                               TranscriptFormer) - FROZEN               │
 │         ↓                                                               │
 │  ┌─────────────────────────┐    ┌──────────────────────────────┐       │
-│  │ Zero-Shot Evaluation    │    │ Fine-Tuning Evaluation       │       │
+│  │ Zero-Shot Evaluation    │    │ Embedding Classification     │       │
 │  │ - StandardScaler        │    │ - Deep MLP (3-layer)         │       │
 │  │ - LogReg / RandomForest │    │ - Residual MLP               │       │
 │  │ - 5-Fold CV             │    │ - Attention Classifier       │       │
 │  └─────────────────────────┘    └──────────────────────────────┘       │
 │         ↓                                ↓                              │
-│  Zero-Shot AUC                    Fine-Tuned AUC                       │
-│  (STATE: 0.894)                   (STATE: 0.943)                       │
+│  Zero-Shot AUC                    Embedding Classifier AUC             │
+│  (STATE: 0.894)                   (STATE: 0.951)                       │
 └─────────────────────────────────────────────────────────────────────────┘
+
+Note: Embeddings are PRE-COMPUTED and FROZEN. Only the classifier head is trained.
+This is NOT fine-tuning of the foundation models.
 ```
 
 ### Pipeline 2: Cross-Cell-Type Therapeutic Discovery
@@ -478,15 +491,17 @@ Step 5: Top candidates = perturbations that best reverse disease trajectory
 ```
 
 ### Embedding Generation
-- Pre-trained foundation models (5 models compared)
-- Zero-shot and fine-tuned evaluation
+- Pre-trained foundation models (6 models compared)
+- Embeddings are pre-computed and frozen
 - Cell-level embeddings extracted
 
 ### Classification (Severity Prediction)
-- **Zero-shot:** Logistic Regression, Random Forest, XGBoost
-- **Fine-tuning:** Deep MLP, Residual MLP, Attention classifier
+- **Zero-shot:** Logistic Regression, Random Forest, XGBoost on frozen embeddings
+- **Embedding Classification:** Deep MLP, Residual MLP, Attention classifiers trained on frozen embeddings
 - **Validation:** 5-fold stratified cross-validation
 - **Metrics:** AUC-ROC, Balanced Accuracy, AUC-PR, Sensitivity@Specificity
+
+> **Note:** Foundation models are NEVER modified. We train only the classification head on pre-computed embeddings. This approach complies with all model licenses.
 
 ### Therapeutic Discovery
 - **Recovery direction:** Vector from severe → recovered centroids
@@ -511,8 +526,8 @@ pip install -r requirements.txt
 # Single model (quick mode: LogReg + RandomForest only)
 python scripts/analysis/benchmark_single_model.py --model UCE --quick --tasks binary
 
-# All 5 models
-for model in STATE UCE scGPT Geneformer TranscriptFormer; do
+# All 6 models
+for model in STATE UCE scGPT scGPT_BP Geneformer TranscriptFormer; do
     python scripts/analysis/benchmark_single_model.py --model $model --quick --tasks binary
 done
 
@@ -534,7 +549,7 @@ python scripts/analysis/create_embedding_visualizations.py
 
 | Flag | Description |
 |------|-------------|
-| `--model` | STATE, UCE, scGPT, Geneformer, TranscriptFormer |
+| `--model` | STATE, UCE, scGPT, scGPT_BP, Geneformer, TranscriptFormer |
 | `--tasks` | binary, 3-class, 6-class |
 | `--quick` | Fast mode (LogReg + RF only) |
 | `--cv-folds` | Number of CV folds (default: 5) |
@@ -559,8 +574,8 @@ Platelet-FM-Benchmark/
 │   ├── fig_sample_efficiency.png       # Sample efficiency curves
 │   ├── fig_gene_dropout.png            # Gene dropout robustness
 │   ├── fig_batch_generalization.png    # COVID→Sepsis transfer
-│   ├── umap_5models_6class.png/pdf     # UMAP comparisons (all 5 models)
-│   ├── umap_5models_binary.png/pdf     # Binary UMAP (all 5 models)
+│   ├── umap_5models_6class.png/pdf     # UMAP comparisons (all 6 models)
+│   ├── umap_5models_binary.png/pdf     # Binary UMAP (all 6 models)
 │   ├── state_severity_gradient.png     # STATE severity gradient
 │   └── perturbation_analysis/          # STATE vs UCE comparisons
 ├── scripts/
