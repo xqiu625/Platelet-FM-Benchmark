@@ -250,24 +250,6 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 
 ---
 
-### UMAP: 6 Models × 6 Severity Classes
-
-<p align="center">
-  <img src="figures/umap_5models_6class.png" alt="UMAP 6 Models 6-class" width="900"/>
-</p>
-
-### UMAP: Binary Classification (Severe vs Non-Severe)
-
-<p align="center">
-  <img src="figures/umap_5models_binary.png" alt="UMAP 6 Models Binary" width="900"/>
-</p>
-
-### Severity Gradient Visualization
-
-<p align="center">
-  <img src="figures/state_severity_gradient.png" alt="STATE Severity Gradient" width="600"/>
-</p>
-
 ### Sample Efficiency Curves
 
 <p align="center">
@@ -399,53 +381,6 @@ python scripts/analysis/create_embedding_visualizations.py
 | `--cv-folds` | Number of CV folds (default: 5) |
 
 ---
-
-## 📂 Repository Structure
-
-```
-Platelet-FM-Benchmark/
-├── README.md                           # This file
-├── requirements.txt                    # Dependencies
-├── figures/                            # Generated visualizations
-│   ├── fig_model_rankings.png          # Model performance rankings
-│   ├── fig_zeroshot_vs_finetuned.png   # Zero-shot vs fine-tuned comparison
-│   ├── fig_roc_curves.png              # ROC curves for all models
-│   ├── fig_confusion_matrix.png        # Confusion matrices
-│   ├── fig_statistical_significance.png # Bootstrap CI & significance tests
-│   ├── fig_biomarkers.png              # Top biomarkers by model
-│   ├── fig_robustness_summary.png      # 3-panel robustness analysis
-│   ├── fig_clinical_metrics.png        # Clinical utility metrics
-│   ├── fig_sample_efficiency.png       # Sample efficiency curves
-│   ├── fig_gene_dropout.png            # Gene dropout robustness
-│   ├── fig_batch_generalization.png    # COVID→Sepsis transfer
-│   ├── umap_5models_6class.png/pdf     # UMAP comparisons (all 6 models)
-│   ├── umap_5models_binary.png/pdf     # Binary UMAP (all 6 models)
-│   └── state_severity_gradient.png     # STATE severity gradient
-├── scripts/
-│   └── analysis/
-│       ├── benchmark_single_model.py   # Run single model benchmark
-│       ├── merge_benchmark_results.py  # Combine all results
-│       ├── create_benchmark_figures.py # Generate result figures
-│       ├── create_embedding_visualizations.py  # UMAP/PCA/t-SNE
-│       ├── clinical_metrics.py         # Clinical utility analysis
-│       ├── statistical_significance.py # Bootstrap CI & DeLong tests
-│       ├── subsampling_robustness.py   # Sample efficiency analysis
-│       ├── gene_dropout_robustness.py  # Gene dropout analysis
-│       ├── batch_shift_generalization.py # Cross-disease transfer
-│       ├── interpretability_analysis.py # Biomarker discovery
-│       ├── embedding_ablations.py      # Dimension reduction tests
-│       └── check_embedding_integrity.py # Data validation
-├── docs/
-│   └── FOUNDATION_MODEL_COMPARISON.md  # Detailed model comparison
-└── results/
-    └── benchmark/                      # Benchmark results
-        ├── core_benchmark_results.csv
-        ├── clinical_metrics_binary.csv
-        ├── model_ranking_summary.csv
-        ├── pca_baseline_results.csv
-        └── subsampling_robustness_binary.csv
-```
-
 
 ## 📚 References
 
