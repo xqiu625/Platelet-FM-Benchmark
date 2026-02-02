@@ -81,9 +81,7 @@ We benchmark **six single-cell foundation models** for COVID-19 severity predict
 | scGPT_BP | 0.810 | 0.815 | 0.818 | 0.814 |
 | scGPT | 0.833 | 0.747 | 0.810 | 0.797 |
 
-<p align="center">
-  <img src="figures/umap_5models_6class.png" alt="UMAP 6 Models 6-class" width="900"/>
-</p>
+
 
 ### Key Insights (Zero-Shot)
 
