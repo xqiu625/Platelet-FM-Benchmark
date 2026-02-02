@@ -226,7 +226,6 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 | [**STATE**](https://github.com/ArcInstitute/state) | bioRxiv 2025 | Large-scale | Transformer + ESM2 | Perturbation response |
 | [**UCE**](https://github.com/snap-stanford/UCE) | bioRxiv 2023 | 36M cells | Transformer + ESM2 | Cross-species |
 | [**scGPT**](https://github.com/bowang-lab/scGPT) | Nat Methods 2024 | 33M cells | GPT-style | Multi-omics |
-| [**scGPT_BP**](https://github.com/bowang-lab/scGPT) | Nat Methods 2024 | 33M cells | GPT-style | Blood & Peripheral |
 | [**Geneformer**](https://huggingface.co/ctheodoris/Geneformer) | Nature 2023 | 30M cells | BERT-style | Network biology |
 | [**TranscriptFormer**](https://virtualcellmodels.cziscience.com) | bioRxiv 2025 | 112M cells | Autoregressive | Generative |
 
@@ -299,7 +298,7 @@ Foundation models identify key genes that distinguish severe from non-severe COV
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  COVID Platelets (47K cells)                                            │
+│  COVID and Sepsis Platelets (47K cells)                                            │
 │         ↓                                                               │
 │  Foundation Model Embeddings (STATE, UCE, scGPT, scGPT_BP, Geneformer, │
 │                               TranscriptFormer) - FROZEN               │
@@ -316,7 +315,6 @@ Foundation models identify key genes that distinguish severe from non-severe COV
 └─────────────────────────────────────────────────────────────────────────┘
 
 Note: Embeddings are PRE-COMPUTED and FROZEN. Only the classifier head is trained.
-This is NOT fine-tuning of the foundation models.
 ```
 
 ### Embedding Generation
