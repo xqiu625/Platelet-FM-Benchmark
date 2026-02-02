@@ -144,15 +144,6 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 | 7 | scGPT_BP (DeepMLP) | 0.804 | Foundation |
 | 8 | scGPT (DeepMLP) | 0.735 | Foundation |
 
-<p align="center">
-  <img src="figures/fig_model_rankings.png" alt="Model Rankings" width="800"/>
-</p>
-
-### Zero-Shot vs Embedding Classifier Comparison
-
-<p align="center">
-  <img src="figures/fig_zeroshot_vs_finetuned.png" alt="Zero-Shot vs Embedding Classifier" width="800"/>
-</p>
 
 **Bottom line:** Foundation models with trained classifiers decisively beat all baselines
 
