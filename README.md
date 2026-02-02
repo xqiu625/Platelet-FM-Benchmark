@@ -96,8 +96,6 @@ We benchmark **six single-cell foundation models** for COVID-19 severity predict
 
 **Training classifiers on frozen foundation model embeddings unlocks their true potential.**
 
-> **Important Clarification:** This is NOT true fine-tuning of foundation models. We use **pre-computed, frozen embeddings** and train only the classification head. The foundation models themselves are never modified, which complies with model licenses (e.g., UCE).
-
 ### Embedding Classification Results (Binary Classification)
 
 | Model | Zero-Shot | Embedding Classifier | Improvement | vs XGBoost (0.897) |
