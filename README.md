@@ -1,6 +1,6 @@
 # 🩸 Platelet-FM-Benchmark
 
-**Benchmarking Single-Cell Foundation Models for Disease Severity Prediction and Cross-Cell-Type Therapeutic Target Discovery**
+**Benchmarking Single-Cell Foundation Models for Disease Severity Prediction**
 
 <p align="center">
   <a href="#-key-results">Results</a> •
@@ -8,7 +8,6 @@
   <a href="#-robustness-analysis">Robustness</a> •
   <a href="#-clinical-utility-metrics">Clinical</a> •
   <a href="#-biomarker-discovery">Biomarkers</a> •
-  <a href="#-perturbation-analysis-for-drug-discovery">Drug Discovery</a> •
   <a href="#-visualizations">Visualizations</a>
 </p>
 
@@ -24,8 +23,8 @@ This project is a **follow-up study** to our published work:
 
 In our 2024 paper, we identified distinct platelet subpopulations associated with disease severity using traditional machine learning approaches. **This current project extends that work** by leveraging state-of-the-art **single-cell foundation models** to:
 - Improve severity prediction accuracy through embedding classification (training classifiers on frozen embeddings)
-- Enable **cross-cell-type therapeutic target discovery**
-- Identify perturbations that shift transcriptional states toward recovery
+- Evaluate robustness under realistic clinical constraints (limited samples, batch effects, missing genes)
+- Identify biomarkers through model interpretability
 
 ---
 
@@ -33,15 +32,15 @@ In our 2024 paper, we identified distinct platelet subpopulations associated wit
 
 ### Core Innovation
 
-We use **foundation model embeddings to bridge disease transcriptomes with perturbation libraries across cell types**. By projecting both COVID-19 platelet data and large-scale perturbation screens (HEK293T, HCT116) into a shared embedding space, we identify **which genetic perturbations shift cells toward recovery states**—even though the perturbations were performed in different cell types.
+We benchmark **six single-cell foundation models** for COVID-19 severity prediction from platelet transcriptomes — an out-of-distribution cell type absent from all models' pretraining data. We evaluate both zero-shot and embedding classification approaches, alongside robustness and clinical utility analyses.
 
 
 ### Key Questions
 
 1. **Which foundation model best predicts COVID-19 severity from platelet transcriptomes?**
 2. **Can embedding classification unlock additional performance beyond zero-shot evaluation?**
-3. **Which genetic perturbations reverse disease-associated transcriptional states?**
-4. **Do different foundation models identify different therapeutic candidates?**
+3. **How robust are foundation models under realistic clinical constraints?**
+4. **Which models provide the best clinical utility?**
 
 ### Key Findings
 
@@ -51,9 +50,7 @@ We use **foundation model embeddings to bridge disease transcriptomes with pertu
 >
 > **3. STATE has best clinical utility** - 71.7% sensitivity at 90% specificity, highest Cohen's kappa (0.611).
 >
-> **4. Cross-cell-type therapeutic discovery works.** We identified 50 therapeutic candidates per model by finding perturbations that shift cells toward recovery states.
->
-> **5. Different models capture different biology.** STATE and UCE identify completely different therapeutic targets with no overlap in top 50 candidates.
+> **4. Foundation models generalize to unseen cell types.** Platelets are absent from all models' pretraining data, yet STATE achieves 0.951 AUC — demonstrating genuine out-of-distribution generalization.
 
 ---
 
@@ -252,6 +249,18 @@ Deep MLP:         Severe ~~~~~~◠◡◠~~~~~ Non-severe  (captures true boundar
 
 ## 📊 Visualizations
 
+### Embedding Quality: Batch Integration vs Biological Conservation
+
+<p align="center">
+  <img src="figures/302006-figure2.jpg" alt="Embedding Quality Assessment" width="900"/>
+</p>
+
+**Figure 2.** Evaluation of embedding quality across six foundation models. **(A)** UMAP projections colored by batch (11 data sources), showing how each model handles technical variation. STATE and UCE produce continuous embeddings that mix batches well, while scGPT and scGPT_BP fragment cells into disconnected clusters. **(B)** UMAP projections colored by 6-class severity, revealing how well each model preserves disease-relevant biological structure. STATE and UCE show smooth severity gradients; Geneformer shows partial separation; scGPT produces isolated clusters with poor severity organization. **(C)** Radar plot of batch mixing metrics (kBET, Batch ASW neg, iLISI). Geneformer leads in kBET; STATE leads in Batch ASW neg and iLISI. scGPT performs poorly across all batch metrics. **(D)** Radar plot of bio-conservation metrics (ARI, Bio ASW, cLISI neg, NMI). STATE dominates on ARI and NMI, indicating best preservation of severity-based biological structure. UCE shows balanced performance. scGPT (blue) has weak bio-conservation despite strong batch correction on some metrics.
+
+**Key takeaway:** STATE achieves the best balance of batch integration and biological signal preservation, consistent with its top classification performance (0.951 AUC). Models with fragmented embeddings (scGPT) struggle on downstream classification tasks.
+
+---
+
 ### UMAP: 6 Models × 6 Severity Classes
 
 <p align="center">
@@ -294,126 +303,6 @@ Foundation models identify key genes that distinguish severe from non-severe COV
 
 ---
 
-## 💊 Perturbation Analysis for Drug Discovery
-
-### The Core Idea: Cross-Cell-Type Therapeutic Discovery
-
-We use foundation model embeddings to **bridge disease transcriptomes with perturbation libraries across cell types**. Even though perturbations were performed in HEK293T and HCT116 cell lines (not platelets), foundation models project both datasets into a shared embedding space where biological programs are comparable.
-
-**Key insight:** A perturbation that shifts cells toward "recovery-like" transcriptional states in embedding space may have therapeutic potential for COVID-19—even if discovered in a different cell type.
-
-### Approach
-
-```
-Step 1: Embed COVID platelets (47K cells) → Define severity landscape
-        healthy ● ─────────────────────── ● recovered
-                 ╲                       ╱
-                  ╲                     ╱
-                   ● severe ────────── ● fatal
-
-Step 2: Embed perturbation library (178K cells, 16K perturbations)
-
-Step 3: For each perturbation, compute its effect vector in embedding space
-
-Step 4: Score perturbations by alignment with RECOVERY direction (severe → recovered)
-        - High recovery score = shifts cells TOWARD healthy/recovered states
-        - Low/negative score = shifts cells TOWARD severe/fatal states
-
-Step 5: Top candidates = perturbations that best reverse disease trajectory
-```
-
-### Why This Works
-
-1. **Shared biological programs:** Foundation models learn universal representations where similar transcriptional states cluster together, regardless of cell type
-2. **Conserved pathways:** Core disease mechanisms (inflammation, stress response, metabolism) are active in both platelets and cell lines
-3. **Direction matters:** We find perturbations that REVERSE disease, not mimic it
-
-### STATE vs UCE Comparison Dashboard
-
-<p align="center">
-  <img src="figures/perturbation_analysis/comparison_summary_dashboard.png" alt="STATE vs UCE Dashboard" width="900"/>
-</p>
-
-### Top Therapeutic Candidates: STATE vs UCE
-
-| Rank | STATE Gene | Score | UCE Gene | Score |
-|:----:|------------|:-----:|----------|:-----:|
-| 1 | **NUTM2G** | 24.78 | **ICMT** | 27.15 |
-| 2 | **CASQ1** | 24.60 | **ZNF766** | 27.10 |
-| 3 | **HSPB8** | 24.57 | **MED31** | 27.08 |
-| 4 | **BTNL9** | 24.53 | **ZFP30** | 27.02 |
-| 5 | **TBC1D10C** | 24.49 | **DUSP11** | 26.98 |
-| 6 | **SUSD3** | 24.45 | **SLC28A1** | 26.96 |
-| 7 | **WNT3** | 24.42 | **ESD** | 26.95 |
-| 8 | **NXPE3** | 24.39 | **AGPAT3** | 26.93 |
-| 9 | **ZNF302** | 24.37 | **B4GALT1** | 26.89 |
-| 10 | **NALF1** | 24.33 | **RAMP3** | 26.85 |
-
-### Top Candidates Comparison
-
-<p align="center">
-  <img src="figures/perturbation_analysis/comparison_top_candidates.png" alt="Top Candidates Comparison" width="900"/>
-</p>
-
-### Perturbation Landscapes
-
-<p align="center">
-  <img src="figures/perturbation_analysis/state_perturbation_landscape.png" alt="STATE Perturbation Landscape" width="450"/>
-  <img src="figures/perturbation_analysis/uce_perturbation_landscape.png" alt="UCE Perturbation Landscape" width="450"/>
-</p>
-
-### Key Findings
-
-| Finding | Details |
-|---------|---------|
-| **Cross-cell-type discovery works** | Found candidates in HEK293T/HCT116 that align with COVID platelet recovery |
-| **No overlap in top 50** | STATE and UCE identify completely different therapeutic targets |
-| **Different pathways** | STATE: calcium signaling, autophagy, Wnt; UCE: prenylation, glycosylation, lipid metabolism |
-| **Both target recovery** | All top candidates shift cells TOWARD recovered state, AWAY from severe |
-
-### Biological Interpretation
-
-**Why different models find different candidates:**
-- **STATE** focuses on perturbation response dynamics (trained on perturbation data)
-- **UCE** focuses on universal cell state representations (trained on diverse cell types)
-- Both capture valid but different aspects of biology
-
-**Top candidate pathways:**
-
-| Model | Top Pathways | Representative Genes |
-|-------|-------------|---------------------|
-| STATE | Calcium signaling, Heat shock/Autophagy, Wnt signaling | CASQ1, HSPB8, WNT3 |
-| UCE | Protein prenylation, Glycosylation, Lipid metabolism | ICMT, B4GALT1, AGPAT3 |
-
-### Validation & Caveats
-
-**Assumption being made:** Perturbations that shift HEK293T/HCT116 cells toward "recovered platelet" embedding space would have therapeutic benefit in actual patients.
-
-**Why it might work:**
-- Foundation models learn conserved biological programs
-- Core pathways (inflammation, metabolism) are shared across cell types
-- Several top candidates (ICMT, LILRB2, PIK3R2) have existing drugs
-
-**Limitations:**
-- Platelets are anucleate (no nucleus) - different from cell lines
-- Embedding similarity ≠ functional similarity
-- Requires experimental validation
-
-### Candidate Overlap Analysis
-
-<p align="center">
-  <img src="figures/perturbation_analysis/comparison_venn_overlap.png" alt="Venn Diagram" width="500"/>
-</p>
-
-### Analysis Summary
-- **Total perturbations analyzed:** 16,248 (per model)
-- **Therapeutic candidates identified:** 50 per model (high recovery score, closest to recovered/healthy)
-- **Data sources:** HEK293T (88,434 cells) + HCT116 (89,738 cells) from the [X-Atlas/Orion genome-wide Perturb-seq dataset](https://doi.org/10.1101/2025.06.11.659105) (Huang et al., bioRxiv 2025)
-
-📄 **Detailed Report:** [results/perturbation_analysis/PERTURBATION_ANALYSIS_REPORT.md](results/perturbation_analysis/PERTURBATION_ANALYSIS_REPORT.md)
-
----
-
 ## 📁 Data
 
 ### Platelet Single-Cell Datasets
@@ -421,9 +310,6 @@ Step 5: Top candidates = perturbations that best reverse disease trajectory
 | Dataset | Disease | Cells | Description |
 |---------|---------|------:|-------------|
 | COVID-19 + Sepsis | Viral & Bacterial Infection | ~47,000 | Severity progression (healthy → fatal) |
-| Perturbation | Drug Response | ~178,000 | HEK293T + HCT116 perturbation screens |
-
-**Perturbation Data Source:** The perturbation data (HEK293T: 88,434 cells + HCT116: 89,738 cells) is from the [X-Atlas/Orion dataset](https://doi.org/10.1101/2025.06.11.659105) (Huang et al., bioRxiv 2025), a genome-wide Perturb-seq atlas targeting 18,903 human genes using the FiCS (Fix-Cryopreserve-ScRNAseq) platform.
 
 ### COVID-19 Severity Distribution
 
@@ -464,29 +350,6 @@ Note: Embeddings are PRE-COMPUTED and FROZEN. Only the classifier head is traine
 This is NOT fine-tuning of the foundation models.
 ```
 
-### Pipeline 2: Cross-Cell-Type Therapeutic Discovery
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│  COVID Platelets              Perturbation Library (HEK293T + HCT116)  │
-│  (47K cells)                  (178K cells, 16K perturbations)          │
-│         ↓                              ↓                                │
-│  ┌──────────────────────────────────────────────────────────────┐      │
-│  │           Shared Foundation Model Embedding Space             │      │
-│  │                                                               │      │
-│  │   healthy ●────────────────────────────● recovered           │      │
-│  │            ╲         recovery         ╱                       │      │
-│  │             ╲        direction       ╱                        │      │
-│  │              ●──────────────────────●                         │      │
-│  │            severe                 fatal                       │      │
-│  │                                                               │      │
-│  │   Perturbation effects scored by alignment with recovery     │      │
-│  └──────────────────────────────────────────────────────────────┘      │
-│         ↓                                                               │
-│  Therapeutic Candidates (top 50 genes that shift toward recovery)      │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
 ### Embedding Generation
 - Pre-trained foundation models (6 models compared)
 - Embeddings are pre-computed and frozen
@@ -499,11 +362,6 @@ This is NOT fine-tuning of the foundation models.
 - **Metrics:** AUC-ROC, Balanced Accuracy, AUC-PR, Sensitivity@Specificity
 
 > **Note:** Foundation models are NEVER modified. We train only the classification head on pre-computed embeddings. This approach complies with all model licenses.
-
-### Therapeutic Discovery
-- **Recovery direction:** Vector from severe → recovered centroids
-- **Perturbation score:** Dot product of perturbation effect with recovery direction
-- **Top candidates:** Perturbations with highest recovery alignment
 
 ---
 
@@ -573,8 +431,7 @@ Platelet-FM-Benchmark/
 │   ├── fig_batch_generalization.png    # COVID→Sepsis transfer
 │   ├── umap_5models_6class.png/pdf     # UMAP comparisons (all 6 models)
 │   ├── umap_5models_binary.png/pdf     # Binary UMAP (all 6 models)
-│   ├── state_severity_gradient.png     # STATE severity gradient
-│   └── perturbation_analysis/          # STATE vs UCE comparisons
+│   └── state_severity_gradient.png     # STATE severity gradient
 ├── scripts/
 │   └── analysis/
 │       ├── benchmark_single_model.py   # Run single model benchmark
@@ -592,10 +449,12 @@ Platelet-FM-Benchmark/
 ├── docs/
 │   └── FOUNDATION_MODEL_COMPARISON.md  # Detailed model comparison
 └── results/
-    └── perturbation_analysis/          # Drug discovery outputs
-        ├── uce_therapeutic_candidates_*.csv   # Top 50 drug targets
-        ├── uce_perturbation_scores_*.csv      # All 16,248 perturbation scores
-        └── uce_analysis_report_*.txt          # Summary report
+    └── benchmark/                      # Benchmark results
+        ├── core_benchmark_results.csv
+        ├── clinical_metrics_binary.csv
+        ├── model_ranking_summary.csv
+        ├── pca_baseline_results.csv
+        └── subsampling_robustness_binary.csv
 ```
 
 
@@ -632,9 +491,6 @@ Platelet-FM-Benchmark/
 3. **scGPT:** Cui et al. (2024). scGPT: Foundation Model for Single-cell Multi-omics. *Nature Methods*. [Paper](https://www.nature.com/articles/s41592-024-02201-0)
 4. **Geneformer:** Theodoris et al. (2023). Transfer learning for network biology. *Nature*. [Paper](https://doi.org/10.1038/s41586-023-06139-9)
 5. **TranscriptFormer:** Pearce et al. (2025). Cross-Species Generative Cell Atlas. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.04.25.650731)
-
-### Perturbation Dataset
-6. **X-Atlas/Orion:** Huang et al. (2025). Genome-wide Perturb-seq Datasets via a Scalable Fix-Cryopreserve Platform for Training Dose-Dependent Biological Foundation Models. *bioRxiv*. [Paper](https://doi.org/10.1101/2025.06.11.659105)
 
 ---
 
