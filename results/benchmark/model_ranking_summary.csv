@@ -1,0 +1,13 @@
+rank,method,binary_auc,3class_auc,6class_auc,avg_auc,type,notes
+1,Raw_XGBoost,0.897,,,0.897,Baseline,Best overall - beats all foundation models
+2,STATE,0.894,0.893,0.894,0.894,Foundation Model,Best foundation model - remarkably consistent
+3,Raw_LogReg,0.878,,,0.878,Baseline,Very competitive simple baseline
+4,UCE,0.876,0.885,0.888,0.883,Foundation Model,Good but barely beats LogReg baseline
+5,Raw_RF,0.867,,,0.867,Baseline,Random forest on raw expression
+6,PCA_500,0.850,0.859,,0.855,Baseline,500 PCA components
+7,PCA_200,0.840,0.850,,0.845,Baseline,200 PCA components
+8,TranscriptFormer,0.838,0.851,0.849,0.846,Foundation Model,Below PCA baselines
+9,scGPT,0.833,0.747,0.810,0.797,Foundation Model,Inconsistent - drops at 3-class
+10,PCA_100,0.832,0.841,,0.837,Baseline,100 PCA components
+11,Geneformer,0.824,0.833,0.821,0.826,Foundation Model,Below PCA baselines
+12,PCA_50,0.808,0.820,,0.814,Baseline,50 PCA components

@@ -1,0 +1,12 @@
+baseline,task,accuracy,balanced_accuracy,auc_macro
+Raw_XGBoost,binary,0.8113,0.7949,0.8970
+Raw_LogReg,binary,0.7910,0.8032,0.8781
+Raw_RF,binary,0.7649,0.7261,0.8674
+PCA_500,binary,0.7496,0.7727,0.8502
+PCA_200,binary,0.7373,0.7630,0.8404
+PCA_100,binary,0.7244,0.7532,0.8315
+PCA_50,binary,0.6972,0.7289,0.8076
+PCA_500,3-class,0.6728,0.7305,0.8593
+PCA_200,3-class,0.6565,0.7211,0.8503
+PCA_100,3-class,0.6408,0.7084,0.8409
+PCA_50,3-class,0.6091,0.6781,0.8197
